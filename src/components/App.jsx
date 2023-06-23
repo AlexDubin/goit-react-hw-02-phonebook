@@ -19,23 +19,28 @@ export class App extends Component {
     this.setState({ filter });
   };
 
- handleAddContact = newContact => {
-  const { contacts } = this.state;
-  const existingContact = contacts.find(
-    contact =>
-      contact.name.toLowerCase() === newContact.name.toLowerCase() ||
-      contact.number === newContact.number
-  );
+  handleAddContact = newContact => {
+    const { contacts } = this.state;
+    const existingContact = contacts.find(
+      contact =>
+        contact.name.toLowerCase() === newContact.name.toLowerCase() ||
+        contact.number === newContact.number
+    );
 
-  if (existingContact) {
-    alert(`${newContact.name} is already in contacts.`);
-  } else {
+    if (existingContact) {
+      alert(`${newContact.name} is already in contacts.`);
+    } else {
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, newContact],
+      }));
+    }
+  };
+
+  handleDeleteContact = contactId => {
     this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
-  }
-};
-
+  };
 
   render() {
     const { filter, contacts } = this.state;
@@ -55,7 +60,10 @@ export class App extends Component {
             filter={filter}
             handleFilterChange={this.handleFilterChange}
           />
-          <ContactsList contacts={filteredContacts} />
+          <ContactsList
+            contacts={filteredContacts}
+            handleDeleteContact={this.handleDeleteContact}
+          />
         </Section>
       </div>
     );
