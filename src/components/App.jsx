@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import HeroSection from './HeroSection/HeroSection';
 import Section from './Section/Section';
 import ContactsList from './ContactsList/ContactsList';
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -51,19 +53,25 @@ export class App extends Component {
     );
 
     return (
-      <div>
-        <Section title="Phonebook">
+      <div className={css.phonebook}>
+        <HeroSection herotitle="Phonebook">
           <ContactForm handleAddContact={this.handleAddContact} />
-        </Section>
+        </HeroSection>
         <Section title="Contacts">
-          <Filter
-            filter={filter}
-            handleFilterChange={this.handleFilterChange}
-          />
-          <ContactsList
-            contacts={filteredContacts}
-            handleDeleteContact={this.handleDeleteContact}
-          />
+          {contacts.length > 0 ? (
+            <>
+              <Filter
+                filter={filter}
+                handleFilterChange={this.handleFilterChange}
+              />
+              <ContactsList
+                contacts={filteredContacts}
+                handleDeleteContact={this.handleDeleteContact}
+              />
+            </>
+          ) : (
+            <p className={css.noCont}>No saved contacts!</p>
+          )}
         </Section>
       </div>
     );

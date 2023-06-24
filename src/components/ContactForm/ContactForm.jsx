@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
-// import css from './ContactForm.module.css';
+import css from './ContactForm.module.css';
 
 class ContactForm extends Component {
   state = {
@@ -33,9 +33,10 @@ class ContactForm extends Component {
 
   render() {
     const { name, number } = this.state;
+    const isFormIncomplete = name.trim() === '' || number.trim() === '';
 
     return (
-      <div>
+      <form>
         <label htmlFor="nameInput">Name</label>
         <input
           type="text"
@@ -46,8 +47,9 @@ class ContactForm extends Component {
           required
           value={name}
           onChange={this.handleNameChange}
+          placeholder="Name"
         />
-        <label htmlFor="numberInput">Number</label>
+        <label htmlFor="numberInput">Telephone</label>
         <input
           type="tel"
           id="numberInput"
@@ -57,11 +59,17 @@ class ContactForm extends Component {
           required
           value={number}
           onChange={this.handleNumberChange}
+          placeholder="Telephone"
         />
-        <button type="button" onClick={this.handleAddContact}>
-          Add contact
+        <button
+          className={css.btnadd}
+          type="button"
+          onClick={this.handleAddContact}
+          disabled={isFormIncomplete}
+        >
+          Add Contact
         </button>
-      </div>
+      </form>
     );
   }
 }
